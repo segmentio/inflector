@@ -14,6 +14,19 @@ import (
 	"strings"
 )
 
+// Prepare replacer and Regexps used in split
+var (
+	repl *strings.Replacer
+	rex1 *regexp.Regexp
+	rex2 *regexp.Regexp
+)
+
+func init() {
+	repl = strings.NewReplacer("-", " ", "_", " ")
+	rex1 = regexp.MustCompile("([A-Z]+)")
+	rex2 = regexp.MustCompile("(\\w+)")
+}
+
 // Shortcut to strings.ToLower()
 func lower(str string) string {
 	return strings.ToLower(trim(str))
@@ -21,11 +34,6 @@ func lower(str string) string {
 
 // Prepares strings by splitting by caps, spaces, dashes, and underscore
 func split(str string) (words []string) {
-	repl := strings.NewReplacer("-", " ", "_", " ")
-
-	rex1 := regexp.MustCompile("([A-Z]+)")
-	rex2 := regexp.MustCompile("(\\w+)")
-
 	str = trim(str)
 
 	// Convert dash and underscore to spaces
